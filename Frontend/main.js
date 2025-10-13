@@ -494,7 +494,7 @@ function openVideoLightbox({ src, poster = '', title = '', subline = '' }) {
       closeOnClick: 'anywhere',
       afterContent() {
         const v = this.$content.find('video').get(0);
-        if (v) v.play().catch(()=>{});
+        //if (v) v.play().catch(()=>{});
         if (v) v.focus({ preventScroll: true });
       },
       afterClose() {
