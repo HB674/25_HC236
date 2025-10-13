@@ -48,6 +48,7 @@
 ## **💡3. 시스템 구성도**
 
 - S/W 구성도
+<img width="720" height="990" alt="image" src="https://github.com/HB674/25_HC236/blob/main/assets/sw.jpg" />
 
 
 
@@ -67,7 +68,6 @@
 
 ```Python
 async def create_tts_audio_job(req: TTSJobRequest):
-    # 0) 이미지 확보: 주어지면 검증, 없으면 최신 자동
     if req.image_path and req.image_path.strip():
         image_in = _as_shared_path(req.image_path)
         if not image_in.exists():
@@ -80,13 +80,11 @@ async def create_tts_audio_job(req: TTSJobRequest):
         image_in = latest_img
         image_auto = True
     
-    # chosen_voice = req.voice or _tts_voice_from_profile(req.voice_profile, fallback="onyx")
     if req.voice_profile:
         chosen_voice = _tts_voice_from_profile(req.voice_profile, fallback="onyx")
     else:
         chosen_voice = req.voice or "onyx"
 
-    # 1) OpenAITTS 호출 준비
     form = {
         "voice": chosen_voice,
         "response_format": (req.response_format or "mp3"),
@@ -100,7 +98,6 @@ async def create_tts_audio_job(req: TTSJobRequest):
     if req.output_basename:
         form["output_basename"] = req.output_basename
 
-    # 2) 합성 실행 + 시간 측정
     async with httpx.AsyncClient(timeout=None) as client:
         t0 = time.perf_counter()
         r = await client.post(OPENAITTS_SYN_URL, data=form)
@@ -120,7 +117,6 @@ async def create_tts_audio_job(req: TTSJobRequest):
 
     mapped_pitch = VOICE_PROFILE_TO_PITCH.get(req.voice_profile, 0)
 
-    # 3) 기존 /jobs/audio와 동일한 요청으로 변환
     audio_req = AudioJobRequest(
         audio_path=rel,
         image_path=str(image_in.resolve().relative_to(SHARED_DIR.resolve())),
@@ -131,19 +127,18 @@ async def create_tts_audio_job(req: TTSJobRequest):
         index_path=req.index_path,
     )
 
-    # 4) 잡 생성 + TTS 메타/타이밍/아티팩트 선기록
     job = _new_job_state(audio_req)
     job.params["tts_mapped_pitch"] = mapped_pitch
     job.params["tts"] = {
         "voice": chosen_voice,
         "response_format": req.response_format or "mp3",
         "auto_ssml_wrap": bool(req.auto_ssml_wrap if req.auto_ssml_wrap is not None else True),
-        "text_source": text_source,  # "inline" | "latest_file"
+        "text_source": text_source, 
         "output_basename": req.output_basename,
     }
     job.params["image_auto_selected"] = image_auto
-    job.artifacts["tts_audio"] = rel                 # 상대경로
-    job.artifacts["tts_audio_abs"] = out or None     # 절대경로(있으면)
+    job.artifacts["tts_audio"] = rel                
+    job.artifacts["tts_audio_abs"] = out or None     
     job.timings["openaitts"] = ms
 
     JOBS[job.job_id] = job
