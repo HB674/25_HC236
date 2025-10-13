@@ -478,7 +478,7 @@ function openVideoLightbox({ src, poster = '', title = '', subline = '' }) {
 
   const content = `
     <div class="work-lightbox">
-      <video class="lightbox-video" src="${safe(src)}" controls preload="metadata" playsinline muted ${poster ? `poster="${safe(poster)}"` : ''}></video>
+      <video class="lightbox-video" src="${safe(src)}" controls preload="metadata" playsinline ${poster ? `poster="${safe(poster)}"` : ''}></video>
       <div class="description">
         ${title ? `<h3>${safe(title)}</h3>` : ''}
         ${subline ? `<p class="subline">${safe(subline)}</p>` : ''}
