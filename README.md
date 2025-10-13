@@ -64,7 +64,7 @@
 
 ---
 ## **💡5. 핵심 소스코드**
-- 소스코드 설명 : OpenAI TTS API를 호출해 음성을 생성한 뒤, Applio(Voice Conversion) 및 후속 파이프라인 모듈에서 활용할 수 있도록 오디오 잡(AudioJobRequest)을 생성하고 비동기 실행을 트리거하는 메서드입니다.
+- 소스코드 설명 : OpenAI TTS API로 음성을 생성한 뒤, 이를 AudioJob 파이프라인에 등록합니다. AudioJob은 Applio(Voice Conversion), SadTalker, Wav2Lip, GFPGAN 등 후속 모듈을 순차 실행하여 최종 딥보이스·딥페이크 결과물을 생성·저장합니다.
 
 ```Python
 async def create_tts_audio_job(req: TTSJobRequest):
