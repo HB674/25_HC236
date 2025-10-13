@@ -494,7 +494,6 @@ function openVideoLightbox({ src, poster = '', title = '', subline = '' }) {
       closeOnClick: 'anywhere',
       afterContent() {
         const v = this.$content.find('video').get(0);
-        if (v) v.play().catch(()=>{});
         if (v) v.focus({ preventScroll: true });
       },
       afterClose() {
@@ -522,8 +521,9 @@ function openVideoLightbox({ src, poster = '', title = '', subline = '' }) {
     overlay.querySelector('.featherlight-close-icon').onclick = doClose;
     overlay.addEventListener('click', (e) => { if (e.target === overlay) doClose(); });
 
+    // const v = overlay.querySelector('video');
+    // if (v) v.play().catch(()=>{});
     const v = overlay.querySelector('video');
-    if (v) v.play().catch(()=>{});
   }
 }
 
