@@ -36,7 +36,7 @@
 ---
 
 ## **💡2. 팀원 소개**
-| <img width="80" height="100" src="https://github.com/user-attachments/assets/ab73bb1c-c1d4-464d-8ad3-635b45d5a8ae" > | <img width="80" height="100" alt="image" src="https://github.com/user-attachments/assets/c7f66b7c-ab84-41fa-8fba-b49dba28b677" > | <img width="80" height="100" alt="image" src="https://github.com/user-attachments/assets/c33252c7-3bf6-43cf-beaa-a9e2d9bd090b" > | <img width="80" height="100" alt="image" src="https://github.com/user-attachments/assets/0d5909f0-fc73-4ab9-be09-4d48e3e71083" > | <img width="80" height="100" alt="image" src="https://github.com/user-attachments/assets/c7f66b7c-ab84-41fa-8fba-b49dba28b677" > |
+| <img width="173" height="228" src="https://github.com/HB674/25_HC236/blob/main/assets/member/howon.jpeg" > | <img width="173" height="228" alt="image" src="https://github.com/HB674/25_HC236/blob/main/assets/member/euntaek.jpeg" > | <img width="173" height="228" alt="image" src="https://github.com/HB674/25_HC236/blob/main/assets/member/hanbeom.jpeg" > | <img width="173" height="228" alt="image" src="https://github.com/HB674/25_HC236/blob/main/assets/member/joonwoo.jpeg" > | <img width="173" height="228" alt="image" src="https://github.com/HB674/25_HC236/blob/main/assets/member/mento.jpeg" > |
 |:---:|:---:|:---:|:---:|:---:|
 | **김호원** | **임은택** | **전한범** | **최준우** | **권용원** |
 | • 프론트엔드 <br> • 딥페이크 | • 딥보이스 <br> • 영상 제작 | • 백엔드 <br> • API 개발 |• 팀장 <br> • 딥페이크 | • 프로젝트 멘토 <br> • 기술 자문 |
@@ -46,10 +46,13 @@
 
 ---
 ## **💡3. 시스템 구성도**
-> **(참고)** S/W구성도, H/W구성도, 서비스 흐름도 등을 작성합니다. 시스템의 동작 과정 등을 추가할 수도 있습니다.
+
+- S/W 구성도
+
+
+
 - 서비스 흐름도
 <img width="959" height="576" alt="image" src="https://github.com/HB674/25_HC236/blob/main/assets/sevice.png" />
-
 
 
 ---
