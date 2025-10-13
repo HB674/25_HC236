@@ -57,7 +57,7 @@
 ---
 ## **💡4. 작품 소개영상**
 
-[![한이음 드림업 프로젝트 소개](https://github.com/user-attachments/assets/16435f88-e7d3-4e45-a128-3d32648d2d84)](youtube.com/watch?v=X-O7OI657Z0&feature=youtu.be)
+[![한이음 드림업 프로젝트 소개](https://github.com/HB674/25_HC236/blob/main/assets/youtubeimage.jpg)](youtube.com/watch?v=X-O7OI657Z0&feature=youtu.be)
 
 
 ---
