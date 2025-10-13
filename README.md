@@ -3,7 +3,7 @@
 **1-1. 프로젝트 소개**
 - 프로젝트 명 : 생성형 AI 기반 얼굴 및 음성 생성 테스트 베드 구축
 - 프로젝트 정의 : 사용자의 검색 의도를 이해하고 최적의 정보를 제공하는 AI 기반 맞춤형 검색 서비스
-  <img width="400" height="400" alt="image" src="https://github.com/user-attachments/assets/b25d0039-dfc8-4a6f-85c0-567a92e4039f" /></br>
+  <img width="400" height="400" alt="image" src="https://github.com/HB674/25_HC236/blob/main/Frontend/assets/img/navigation-logo.png" /></br>
 
 **1-2. 개발 배경 및 필요성**
 - 현대 사회는 방대한 정보가 실시간으로 생성되고 축적되고 있습니다. 그러나 사용자가 원하는 정확한 정보를 찾기 위해서는 여전히 많은 시간과 노력이 필요합니다. 기존 키워드 기반 검색 방식은 사용자의 맥락이나 의도를 충분히 반영하지 못해 효율성이 떨어집니다. 따라서 사용자의 검색 목적을 인공지능이 이해하고 개인화된 결과를 제공하는 맞춤형 검색 서비스가 필요합니다.
