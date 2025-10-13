@@ -64,27 +64,87 @@
 ## **💡5. 핵심 소스코드**
 - 소스코드 설명 : API를 활용해서 자동 배포를 생성하는 메서드입니다.
 
-```Java
-    private static void start_deployment(JsonObject jsonObject) {
-        String user = jsonObject.get("user").getAsJsonObject().get("login").getAsString();
-        Map<String, String> map = new HashMap<>();
-        map.put("environment", "QA");
-        map.put("deploy_user", user);
-        Gson gson = new Gson();
-        String payload = gson.toJson(map);
+```Python
+async def create_tts_audio_job(req: TTSJobRequest):
+    # 0) 이미지 확보: 주어지면 검증, 없으면 최신 자동
+    if req.image_path and req.image_path.strip():
+        image_in = _as_shared_path(req.image_path)
+        if not image_in.exists():
+            raise HTTPException(status_code=404, detail=f"image not found: {image_in}")
+        image_auto = False
+    else:
+        latest_img = _pick_latest_image()
+        if not latest_img:
+            raise HTTPException(status_code=404, detail="no image found under input_image/")
+        image_in = latest_img
+        image_auto = True
+    
+    # chosen_voice = req.voice or _tts_voice_from_profile(req.voice_profile, fallback="onyx")
+    if req.voice_profile:
+        chosen_voice = _tts_voice_from_profile(req.voice_profile, fallback="onyx")
+    else:
+        chosen_voice = req.voice or "onyx"
 
-        try {
-            GitHub gitHub = GitHubBuilder.fromEnvironment().build();
-            GHRepository repository = gitHub.getRepository(
-                    jsonObject.get("head").getAsJsonObject()
-                            .get("repo").getAsJsonObject()
-                            .get("full_name").getAsString());
-            GHDeployment deployment =
-                    new GHDeploymentBuilder(
-                            repository,
-                            jsonObject.get("head").getAsJsonObject().get("sha").getAsString()
-                    ).description("Auto Deploy after merge").payload(payload).autoMerge(false).create();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    # 1) OpenAITTS 호출 준비
+    form = {
+        "voice": chosen_voice,
+        "response_format": (req.response_format or "mp3"),
+        "auto_ssml_wrap": "true" if (req.auto_ssml_wrap is None or req.auto_ssml_wrap) else "false",
     }
+    text_source = "inline"
+    if req.tts_text is not None and req.tts_text.strip():
+        form["text"] = req.tts_text
+    else:
+        text_source = "latest_file"
+    if req.output_basename:
+        form["output_basename"] = req.output_basename
+
+    # 2) 합성 실행 + 시간 측정
+    async with httpx.AsyncClient(timeout=None) as client:
+        t0 = time.perf_counter()
+        r = await client.post(OPENAITTS_SYN_URL, data=form)
+        ms = int((time.perf_counter() - t0) * 1000)
+        if r.status_code != 200:
+            raise HTTPException(status_code=502, detail=f"openaitts http_{r.status_code}: {r.text[:300]}")
+        jr = r.json()
+        rel = jr.get("relative")
+        out = jr.get("output")
+        if not rel and out:
+            try:
+                rel = str(Path(out).resolve().relative_to(SHARED_DIR.resolve()))
+            except Exception:
+                rel = out
+        if not rel:
+            raise HTTPException(status_code=500, detail=f"openaitts response missing path: {jr}")
+
+    mapped_pitch = VOICE_PROFILE_TO_PITCH.get(req.voice_profile, 0)
+
+    # 3) 기존 /jobs/audio와 동일한 요청으로 변환
+    audio_req = AudioJobRequest(
+        audio_path=rel,
+        image_path=str(image_in.resolve().relative_to(SHARED_DIR.resolve())),
+        use_applio=req.use_applio,
+        pitch=mapped_pitch,
+        voice_profile=req.voice_profile,
+        pth_path=req.pth_path,
+        index_path=req.index_path,
+    )
+
+    # 4) 잡 생성 + TTS 메타/타이밍/아티팩트 선기록
+    job = _new_job_state(audio_req)
+    job.params["tts_mapped_pitch"] = mapped_pitch
+    job.params["tts"] = {
+        "voice": chosen_voice,
+        "response_format": req.response_format or "mp3",
+        "auto_ssml_wrap": bool(req.auto_ssml_wrap if req.auto_ssml_wrap is not None else True),
+        "text_source": text_source,  # "inline" | "latest_file"
+        "output_basename": req.output_basename,
+    }
+    job.params["image_auto_selected"] = image_auto
+    job.artifacts["tts_audio"] = rel                 # 상대경로
+    job.artifacts["tts_audio_abs"] = out or None     # 절대경로(있으면)
+    job.timings["openaitts"] = ms
+
+    JOBS[job.job_id] = job
+    asyncio.create_task(_run_audio_job(job))
+    return {"job_id": job.job_id, "status": job.status}
