@@ -26,12 +26,12 @@
 - 활용 분야 : 추모, 교육, 엔터테인먼트, 1인 미디어 및 맞춤형 콘텐츠 제작 등 폭넓은 활용 가능
 
 **1-6. 기술 스택**
-- 프론트엔드 : React, Next.js, Tailwind CSS
-- 백엔드 : Python(FastAPI), Node.js, Django
-- AI/ML : PyTorch, TensorFlow, Hugging Face, OpenAI API
-- 데이터베이스 : PostgreSQL, MongoDB, Elasticsearch
-- 클라우드 : AWS
-- 배포 및 관리 : Docker, Kubernetes, GitHub Actions
+- 프론트엔드 : HTML, CSS, JavaScript, jQuery
+- 백엔드 : Python(FastAPI)
+- AI/ML : PyTorch, OpenAI TTS, Applio(Voice Conversion), SadTalker, Wav2Lip, GFPGAN
+- 클라우드 / 호스트•네트워킹 : Vercel, Cloudflare Tunnel
+- 배포 및 운영 : Docker, Docker Compose
+- 협업 / 문서화 : GitHub, Notion
 
 ---
 
