@@ -64,7 +64,7 @@
 
 ---
 ## **💡5. 핵심 소스코드**
-- 소스코드 설명 : API를 활용해서 자동 배포를 생성하는 메서드입니다.
+- 소스코드 설명 : OpenAI TTS API를 호출해 음성을 생성한 뒤, Applio(Voice Conversion) 및 후속 파이프라인 모듈에서 활용할 수 있도록 오디오 잡(AudioJobRequest)을 생성하고 비동기 실행을 트리거하는 메서드입니다.
 
 ```Python
 async def create_tts_audio_job(req: TTSJobRequest):
