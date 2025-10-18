@@ -1,3 +1,3 @@
 // Frontend/config.js
-window.API_BASE = "https://airfare-junction-flexible-alt.trycloudflare.com";
+window.API_BASE = "https://qty-studios-folder-metallic.trycloudflare.com";
 
