@@ -1,3 +1,3 @@
 // Frontend/config.js
-window.API_BASE = "https://qty-studios-folder-metallic.trycloudflare.com";
+window.API_BASE = "https://wax-threshold-lowest-disk.trycloudflare.com";
 
