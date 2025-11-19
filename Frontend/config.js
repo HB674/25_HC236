@@ -1,3 +1,3 @@
 // Frontend/config.js
-window.API_BASE = "https://ver-herb-horizon-tend.trycloudflare.com";
+window.API_BASE = "https://euro-empty-departmental-revision.trycloudflare.com";
 
